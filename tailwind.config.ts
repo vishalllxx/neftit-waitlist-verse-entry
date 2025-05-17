@@ -29,7 +29,7 @@ export default {
 					purple: '#9b87f5',
 					'dark-purple': '#6E59A5',
 					'light-purple': '#E5DEFF',
-					'dark-bg': '#1A1F2C',
+					'dark-bg': '#000000',
 				},
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',

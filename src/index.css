@@ -41,7 +41,7 @@
   }
   
   body {
-    @apply bg-neftit-dark-bg text-foreground antialiased;
+    @apply bg-black text-foreground antialiased;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
   }
 
@@ -61,10 +61,18 @@
   }
 
   .glass-card {
-    @apply backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)];
+    @apply bg-[#111111] border border-white/5 shadow-none rounded-lg;
   }
   
   .text-gradient {
     @apply bg-gradient-to-r from-neftit-purple to-neftit-light-purple bg-clip-text text-transparent;
+  }
+  
+  .input-style {
+    @apply bg-[#111111] border border-white/5 text-white placeholder:text-white/30 rounded-md px-4 py-3;
+  }
+  
+  .waitlist-button {
+    @apply flex items-center justify-center text-white bg-transparent border border-white/20 hover:bg-white/5 transition-colors rounded-md px-4 py-3;
   }
 }

@@ -1,9 +1,8 @@
-
 import React, { useState } from 'react';
 import { useWaitlistStore, WaitlistStep } from '@/hooks/useWaitlistStore';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, User, Mail, Twitter } from 'lucide-react';
 import StepIndicator from './StepIndicator';
 import ReferralLink from './ReferralLink';
 import { toast } from 'sonner';
@@ -24,6 +23,7 @@ const WaitlistForm: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isTwitterFollowed, setIsTwitterFollowed] = useState(false);
   const [isDiscordJoined, setIsDiscordJoined] = useState(false);
+  const [name, setName] = useState('');
 
   // Validation functions
   const validateEmail = (email: string) => {
@@ -33,6 +33,10 @@ const WaitlistForm: React.FC = () => {
 
   const handleEmailSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!name) {
+      toast.error("Please enter your name");
+      return;
+    }
     if (!validateEmail(email)) {
       toast.error("Please enter a valid email address");
       return;
@@ -86,29 +90,37 @@ const WaitlistForm: React.FC = () => {
     switch (step) {
       case 'email':
         return (
-          <form onSubmit={handleEmailSubmit} className="space-y-6 w-full">
-            <div className="space-y-2">
-              <h3 className="text-lg font-medium">Join the Waitlist</h3>
-              <p className="text-sm text-muted-foreground">
-                Enter your email to get early access
-              </p>
-            </div>
-            
+          <form onSubmit={handleEmailSubmit} className="space-y-4 w-full">            
             <div className="space-y-4">
-              <Input
-                type="email"
-                placeholder="Your email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="bg-white/5 border border-white/10 text-white"
-                required
-              />
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50 h-5 w-5" />
+                <Input
+                  type="text"
+                  placeholder="Your name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="input-style pl-10"
+                  required
+                />
+              </div>
+              
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50 h-5 w-5" />
+                <Input
+                  type="email"
+                  placeholder="Your email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="input-style pl-10"
+                  required
+                />
+              </div>
               
               <Button 
                 type="submit" 
-                className="w-full bg-neftit-purple hover:bg-neftit-dark-purple"
+                className="waitlist-button w-full"
               >
-                Submit & Continue
+                Join the waitlist
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
@@ -148,18 +160,21 @@ const WaitlistForm: React.FC = () => {
                 </label>
               </div>
               
-              <Input
-                type="text"
-                placeholder="Your X username (without @)"
-                value={twitterUsername}
-                onChange={(e) => setTwitterUsername(e.target.value)}
-                className="bg-white/5 border border-white/10 text-white"
-                required
-              />
+              <div className="relative">
+                <Twitter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50 h-5 w-5" />
+                <Input
+                  type="text"
+                  placeholder="Your X username (without @)"
+                  value={twitterUsername}
+                  onChange={(e) => setTwitterUsername(e.target.value)}
+                  className="input-style pl-10"
+                  required
+                />
+              </div>
               
               <Button 
                 type="submit" 
-                className="w-full bg-neftit-purple hover:bg-neftit-dark-purple"
+                className="waitlist-button w-full"
               >
                 Next
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -206,13 +221,13 @@ const WaitlistForm: React.FC = () => {
                 placeholder="Your Discord username (with tag)"
                 value={discordUsername}
                 onChange={(e) => setDiscordUsername(e.target.value)}
-                className="bg-white/5 border border-white/10 text-white"
+                className="input-style"
                 required
               />
               
               <Button 
                 type="submit" 
-                className="w-full bg-neftit-purple hover:bg-neftit-dark-purple"
+                className="waitlist-button w-full"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? "Joining..." : "Join Waitlist"}
@@ -246,8 +261,10 @@ const WaitlistForm: React.FC = () => {
   return (
     <div className="w-full max-w-md mx-auto">
       <StepIndicator currentStep={currentStep} />
-      <div className="min-h-[320px]">
-        {renderStep(currentStep)}
+      <div className="glass-card p-6">
+        <div className="min-h-[200px]">
+          {renderStep(currentStep)}
+        </div>
       </div>
     </div>
   );

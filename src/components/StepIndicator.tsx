@@ -9,15 +9,20 @@ interface StepIndicatorProps {
 
 const StepIndicator: React.FC<StepIndicatorProps> = ({ currentStep }) => {
   const steps = [
-    { id: 'email', label: 'Email' },
+    { id: 'email', label: 'Details' },
     { id: 'twitter', label: 'Twitter' },
     { id: 'discord', label: 'Discord' },
     { id: 'confirmation', label: 'Complete' },
   ];
 
+  // Hide step indicator on confirmation screen to match design
+  if (currentStep === 'confirmation') {
+    return null;
+  }
+
   return (
-    <div className="flex items-center justify-center space-x-2 mb-8">
-      {steps.map((step, index) => {
+    <div className="flex items-center justify-center space-x-1 sm:space-x-2 mb-5">
+      {steps.slice(0, 3).map((step, index) => {
         const isActive = currentStep === step.id;
         const isPast = 
           steps.findIndex(s => s.id === currentStep) > 
@@ -28,31 +33,21 @@ const StepIndicator: React.FC<StepIndicatorProps> = ({ currentStep }) => {
             <div className="flex flex-col items-center">
               <div 
                 className={cn(
-                  "w-3 h-3 rounded-full transition-all duration-300",
+                  "w-2 h-2 rounded-full transition-all duration-300",
                   isActive 
-                    ? "bg-neftit-purple scale-125" 
+                    ? "bg-white" 
                     : isPast 
-                      ? "bg-neftit-purple/80" 
-                      : "bg-white/20"
+                      ? "bg-white/70" 
+                      : "bg-white/30"
                 )}
               />
-              <span 
-                className={cn(
-                  "text-xs mt-1 hidden sm:block",
-                  isActive 
-                    ? "text-white" 
-                    : "text-white/50"
-                )}
-              >
-                {step.label}
-              </span>
             </div>
             
-            {index < steps.length - 1 && (
+            {index < steps.length - 2 && (
               <div 
                 className={cn(
-                  "h-[1px] w-8 sm:w-12", 
-                  isPast ? "bg-neftit-purple/80" : "bg-white/20"
+                  "h-[1px] w-4 sm:w-8", 
+                  isPast ? "bg-white/70" : "bg-white/30"
                 )}
               />
             )}
